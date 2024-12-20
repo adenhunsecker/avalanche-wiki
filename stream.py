@@ -1,41 +1,12 @@
 import pydeck as pdk
 import streamlit as st
 import matplotlib.pyplot as plt
-from utils import getNWS
+import utils
+from utils import getNWS, get_location
 
-# HTML and JavaScript to get user location
-get_location_html = """
-<script>
-    function getLocation() {
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(
-                (position) => {
-                    const latitude = position.coords.latitude;
-                    const longitude = position.coords.longitude;
-                    // Set the hidden inputs and submit the form
-                    document.getElementById("latitude").value = latitude;
-                    document.getElementById("longitude").value = longitude;
-                    document.getElementById("locationForm").submit();
-                },
-                (error) => {
-                    console.error("Error getting location:", error);
-                    alert("Unable to fetch location. Please allow location access.");
-                }
-            );
-        } else {
-            alert("Geolocation is not supported by your browser.");
-        }
-    }
-    window.onload = getLocation;
-</script>
-<form id="locationForm" method="post">
-    <input type="hidden" id="latitude" name="latitude">
-    <input type="hidden" id="longitude" name="longitude">
-</form>
-"""
 
 # Display the HTML
-st.components.v1.html(get_location_html, height=0)
+st.components.v1.html(get_location, height=0)
 
 # Capture the posted data
 query_params = st.query_params
@@ -94,3 +65,8 @@ plt.xticks(rotation=45)
 
 # Display the plot in Streamlit
 st.pyplot(plt)
+
+gif_url = 'https://weather.rap.ucar.edu/model/eta69hr_sfc_prcp.gif'
+
+st.title("12-HR Accumulated Precipitation")
+st.markdown("![Mountain Weather Forecast](https://weather.rap.ucar.edu/model/eta12hr_sfc_prcp.gif)")
