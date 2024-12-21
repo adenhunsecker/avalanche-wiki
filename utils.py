@@ -61,3 +61,35 @@ def getDewPoint(data):
 
 if __name__ == '__main__':
     main()
+
+
+# HTML and JavaScript to get user location
+get_location = """
+<script>
+    function getLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    const latitude = position.coords.latitude;
+                    const longitude = position.coords.longitude;
+                    // Set the hidden inputs and submit the form
+                    document.getElementById("latitude").value = latitude;
+                    document.getElementById("longitude").value = longitude;
+                    document.getElementById("locationForm").submit();
+                },
+                (error) => {
+                    console.error("Error getting location:", error);
+                    alert("Unable to fetch location. Please allow location access.");
+                }
+            );
+        } else {
+            alert("Geolocation is not supported by your browser.");
+        }
+    }
+    window.onload = getLocation;
+</script>
+<form id="locationForm" method="post">
+    <input type="hidden" id="latitude" name="latitude">
+    <input type="hidden" id="longitude" name="longitude">
+</form>
+"""
